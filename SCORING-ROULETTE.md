@@ -1,6 +1,7 @@
 # Running scores and Roulette Mode
 
 Issue: [#3](https://github.com/timothyson39-wq/my-rps/issues/3)
+Pull request: [#4](https://github.com/timothyson39-wq/my-rps/pull/4). CI: [Python checks passed](https://github.com/timothyson39-wq/my-rps/actions/runs/43458300367).
 
 ## Agreed behavior
 

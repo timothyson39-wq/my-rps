@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rock, Paper, Scissors</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='classic-score.js') }}"></script>
   </head>
   <body>
     <main>
@@ -15,28 +16,51 @@
       </header>
 
       <section class="game" aria-labelledby="game-heading">
-        {% if error %}
-          <p class="notice" role="alert">{{ error }}</p>
-        {% endif %}
+        <div class="mode-picker" aria-label="Game mode" role="group" hidden>
+          <button type="button" data-mode="classic" aria-pressed="true">Classic</button>
+          <button type="button" data-mode="roulette" aria-pressed="false">Roulette</button>
+        </div>
+        <dialog id="switch-mode" aria-labelledby="switch-message">
+          <p id="switch-message">The score will be reset. Will you continue?</p>
+          <form method="dialog" class="dialog-actions">
+            <button value="cancel" autofocus>Cancel</button>
+            <button value="continue">Continue</button>
+          </form>
+        </dialog>
+        <div class="scoreboard">
+          <p class="score" aria-live="polite">
+            You <strong id="player-score">0</strong>
+            <span aria-hidden="true">–</span>
+            Computer <strong id="computer-score">0</strong>
+          </p>
+          <button type="button" id="reset-score" hidden>Reset Score</button>
+        </div>
+        <p class="notice" id="round-error" role="alert" hidden></p>
 
-        {% if unfinished %}
-          <div class="notice" role="status">
-            <strong>Starter: game rules not built yet.</strong>
-            <span>The page works. RPS-001 will make it decide a winner.</span>
+        <div class="round-display" aria-live="polite">
+          {% if error %}
+            <p class="notice" role="alert">{{ error }}</p>
+          {% endif %}
+
+          {% if unfinished %}
+            <div class="notice" role="status">
+              <strong>Starter: game rules not built yet.</strong>
+              <span>The page works. RPS-001 will make it decide a winner.</span>
+            </div>
+          {% endif %}
+
+          {% if player and computer %}
+            <div class="choices" data-computer="{{ computer }}" aria-label="This round’s choices">
+              <div><p class="choice-label">You chose</p><p class="choice-value">{{ player|capitalize }} <span aria-hidden="true">{{ moves[player] }}</span></p></div>
+              <span class="versus" aria-hidden="true">vs</span>
+              <div><p class="choice-label">Computer chose</p><p class="choice-value">{{ computer|capitalize }} <span aria-hidden="true">{{ moves[computer] }}</span></p></div>
+            </div>
+          {% endif %}
+
+          <div class="result"{% if outcome %} data-outcome="{{ outcome }}"{% endif %}>
+            <h2 id="game-heading">{{ result[0] if result else 'Your next move?' }}</h2>
+            <p>{{ result[1] if result else 'Choose a move below to play.' }}</p>
           </div>
-        {% endif %}
-
-        {% if player and computer %}
-          <div class="choices" aria-label="This round’s choices">
-            <div><p class="choice-label">You chose</p><p class="choice-value">{{ player|capitalize }} <span aria-hidden="true">{{ moves[player] }}</span></p></div>
-            <span class="versus" aria-hidden="true">vs</span>
-            <div><p class="choice-label">Computer chose</p><p class="choice-value">{{ computer|capitalize }} <span aria-hidden="true">{{ moves[computer] }}</span></p></div>
-          </div>
-        {% endif %}
-
-        <div class="result"{% if outcome %} data-outcome="{{ outcome }}"{% endif %}>
-          <h2 id="game-heading">{{ result[0] if result else 'Your next move?' }}</h2>
-          <p>{{ result[1] if result else 'Choose a move below to play.' }}</p>
         </div>
 
         <form method="post" aria-label="Choose your move">
@@ -47,7 +71,12 @@
             </button>
           {% endfor %}
         </form>
-        <p class="hint">Each click plays a new round.</p>
+        <div id="roulette" hidden>
+          <div class="wheel-frame" aria-hidden="true"><div class="wheel"><span>✊</span><span>✋</span><span>✌</span></div></div>
+          <p id="spin-status" aria-live="polite"></p>
+          <button type="button" id="spin">Spin</button>
+          <button type="button" id="stop" hidden>Stop</button>
+        </div>
       </section>
 
       <footer>Rock beats scissors. Scissors beats paper. Paper beats rock.</footer>

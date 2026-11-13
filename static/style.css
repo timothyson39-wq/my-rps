@@ -43,3 +43,28 @@ footer { margin: 22px auto 0; text-align: center; color: #536075; font-size: 0.7
   .symbol { font-size: 2.25rem; }
   .choices { gap: 8px; }
 }
+
+.scoreboard { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; margin-bottom: 22px; border-bottom: 1px solid #ebe6dc; }
+.score { margin: 0; font-variant-numeric: tabular-nums; }
+.score strong { margin-inline: 4px; }
+#reset-score { padding: 6px 12px; border: 1px solid #d8d2c7; border-radius: 8px; background: #fffdf9; color: inherit; font: inherit; cursor: pointer; }
+#reset-score:focus-visible { outline: 3px solid #17233b; outline-offset: 3px; }
+
+[hidden] { display: none !important; }
+.mode-picker { display: flex; gap: 8px; margin-bottom: 18px; }
+.mode-picker button, #roulette button, .dialog-actions button { padding: 8px 14px; border: 1px solid #d8d2c7; border-radius: 8px; background: #fffdf9; color: inherit; font: inherit; cursor: pointer; }
+.mode-picker [aria-pressed="true"] { background: #17233b; color: #fffdf9; }
+dialog { max-width: calc(100% - 32px); border: 1px solid #d8d2c7; border-radius: 16px; padding: 22px; color: inherit; background: #fffdf9; }
+dialog::backdrop { background: #17233b77; }
+.dialog-actions { display: flex; justify-content: flex-end; }
+#roulette { text-align: center; }
+.wheel-frame { position: relative; width: max-content; margin: 8px auto 0; }
+.wheel-frame::after { position: absolute; top: -6px; left: calc(50% - 8px); border: 8px solid transparent; border-top: 12px solid #17233b; content: ''; }
+.wheel { position: relative; display: grid; place-items: center; width: 142px; aspect-ratio: 1; margin: 0 auto; border-radius: 50%; border: 4px solid #17233b; background: conic-gradient(#e5edf9 0 120deg, #f9e6df 120deg 240deg, #e6eee1 240deg); font-size: 1.6rem; }
+.wheel span { position: absolute; }
+.wheel span:nth-child(1) { transform: translate(38px, -22px); }
+.wheel span:nth-child(2) { transform: translateY(44px); }
+.wheel span:nth-child(3) { transform: translate(-38px, -22px); }
+.wheel.spinning { animation: wheel-turn 650ms linear infinite; }
+@keyframes wheel-turn { to { transform: rotate(1turn); } }
+@media (prefers-reduced-motion: reduce) { .wheel.spinning { animation: none; } }

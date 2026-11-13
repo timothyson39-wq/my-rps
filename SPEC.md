@@ -50,7 +50,7 @@ Use `unit`, `integration`, and `e2e` pytest markers. Run `.venv/bin/python check
 ### Work record
 
 - Issue: https://github.com/timothyson39-wq/my-rps/issues/1
-- Pull request / CI: add actual URLs when they exist.
+- Pull request / CI: [PR #2](https://github.com/timothyson39-wq/my-rps/pull/2) and [Python checks run](https://github.com/timothyson39-wq/my-rps/actions/runs/43445679579).
 - Implementation: [Winner rules](game.py) implement all nine outcomes for independent rounds. [Rule and request tests](tests/test_game.py) cover the expected results and a real submitted loss; [browser round and replay](tests/e2e/test_round.py) use real rules.
 - Checks: `.venv/bin/python check.py` passed Black, Pylint, 23 non-browser tests, and 6 Chromium tests. Reviewed the diff and new test files against the spec; `git diff --check` passed. Existing missing/invalid-input checks remain intact.
 - Student review: after clarification that the displayed Python snippet was test code rather than a Bash command, the student explained that returning `win` for Rock versus Paper would fail the expected `lose` assertion.
